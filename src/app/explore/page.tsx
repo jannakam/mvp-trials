@@ -1,10 +1,10 @@
 'use client';
 
 import { Header } from '@/components/Header';
-import { BottomNav } from '@/components/BottomNav';
-import { ProductCard } from '@/components/ProductCard';
+import { SearchSection } from '@/components/SearchSection';
 import { useAppContext } from '@/context/AppContext';
 import { translations } from '@/context/translations';
+import { ProductCard } from '@/components/ProductCard';
 import { useState } from 'react';
 
 // Mock data for products
@@ -124,16 +124,7 @@ export default function ExplorePage() {
   const [selectedPriceRange, setSelectedPriceRange] = useState('All');
   const [selectedSort, setSelectedSort] = useState('newest');
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
-  const [wishlistItems, setWishlistItems] = useState<string[]>([]);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
-  const toggleWishlist = (productId: string) => {
-    setWishlistItems(prev => 
-      prev.includes(productId) 
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-  };
 
   const toggleCondition = (condition: string) => {
     setSelectedConditions(prev => 
@@ -162,13 +153,13 @@ export default function ExplorePage() {
     options: string[];
   }) => (
     <div className="mb-4">
-      <label className="block text-sm font-medium text-accent-olive-dark dark:text-neutral-beige mb-2">
+      <label className="block text-mobile-sm font-medium text-accent-olive-dark dark:text-neutral-beige mb-2">
         {label}
       </label>
       <select
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full px-3 py-2 border border-neutral-beige dark:border-accent-olive-dark rounded-lg bg-background-light dark:bg-background-dark text-accent-olive-dark dark:text-neutral-beige focus:outline-none focus:ring-2 focus:ring-accent-peach focus:border-transparent"
+        className="w-full mobile-button px-3 py-2 border border-neutral-beige dark:border-accent-olive-dark rounded-lg bg-background-light dark:bg-background-dark text-accent-olive-dark dark:text-neutral-beige focus:outline-none focus:ring-2 focus:ring-accent-peach focus:border-transparent text-mobile-base"
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -188,14 +179,14 @@ export default function ExplorePage() {
     checked: boolean;
     onChange: () => void;
   }) => (
-    <label className="flex items-center space-x-2 rtl:space-x-reverse cursor-pointer py-1">
+    <label className="flex items-center space-x-2 rtl:space-x-reverse cursor-pointer py-2 mobile-button">
       <input
         type="checkbox"
         checked={checked}
         onChange={onChange}
-        className="text-accent-peach focus:ring-accent-peach rounded"
+        className="text-accent-peach focus:ring-accent-peach rounded w-4 h-4"
       />
-      <span className="text-sm text-accent-olive-dark dark:text-neutral-beige">
+      <span className="text-mobile-sm text-accent-olive-dark dark:text-neutral-beige">
         {label}
       </span>
     </label>
@@ -204,17 +195,19 @@ export default function ExplorePage() {
   return (
     <div className="min-h-screen bg-background-light dark:bg-background-dark">
       <Header />
+      <SearchSection />
       
-      <main className="pb-20 md:pb-0 pt-4">
+      <main className="pb-24 md:pb-8 pt-4 md:pt-8">
         {/* Mobile Header */}
-        <div className="md:hidden px-4 mb-6">
+        <div className="md:hidden mobile-px mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h1 className="text-2xl font-bold text-accent-olive-dark dark:text-neutral-beige">
+            <h1 className="text-mobile-2xl font-bold text-accent-olive-dark dark:text-neutral-beige">
               {t.explore}
             </h1>
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-2 rounded-lg bg-neutral-beige dark:bg-accent-olive text-accent-olive-dark dark:text-neutral-beige"
+              className="mobile-button p-3 rounded-lg bg-neutral-beige dark:bg-accent-olive text-accent-olive-dark dark:text-neutral-beige"
+              aria-label="Toggle filters"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.207A1 1 0 013 6.5V4z" />
@@ -224,7 +217,7 @@ export default function ExplorePage() {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:flex container mx-auto px-4">
+        <div className="hidden md:flex container mx-auto mobile-px">
           {/* Sidebar Filters */}
           <div className="w-80 flex-shrink-0 mr-8">
             <div className="sticky top-24">
@@ -248,7 +241,7 @@ export default function ExplorePage() {
                     </h3>
                     <button
                       onClick={clearFilters}
-                      className="text-sm text-accent-peach hover:text-accent-peach-dark transition-colors"
+                      className="mobile-button text-mobile-sm text-accent-peach hover:text-accent-peach-dark transition-colors"
                     >
                       {language === 'en' ? 'Clear All' : 'مسح الكل'}
                     </button>
@@ -281,7 +274,7 @@ export default function ExplorePage() {
 
                 {/* Condition */}
                 <div className="mb-4">
-                  <label className="block text-sm font-medium text-accent-olive-dark dark:text-neutral-beige mb-2">
+                  <label className="block text-mobile-sm font-medium text-accent-olive-dark dark:text-neutral-beige mb-2">
                     {t.condition}
                   </label>
                   <div className="space-y-1">
@@ -306,7 +299,7 @@ export default function ExplorePage() {
               <div className="bg-gradient-to-br from-accent-peach to-accent-peach-dark rounded-lg p-6 text-white">
                 <h3 className="text-xl font-bold mb-2">{t.fitsWeStyled}</h3>
                 <p className="text-sm opacity-90 mb-4">Discover our curated vintage looks</p>
-                <button className="px-4 py-2 bg-white text-accent-peach-dark font-medium rounded-lg hover:bg-neutral-beige transition-colors">
+                <button className="mobile-button px-4 py-2 bg-white text-accent-peach-dark font-medium rounded-lg hover:bg-neutral-beige transition-colors">
                   {t.viewDetails}
                 </button>
               </div>
@@ -314,7 +307,7 @@ export default function ExplorePage() {
               <div className="bg-gradient-to-br from-accent-olive to-accent-olive-dark rounded-lg p-6 text-white">
                 <h3 className="text-xl font-bold mb-2">{t.onSale}</h3>
                 <p className="text-sm opacity-90 mb-4">Up to 50% off selected items</p>
-                <button className="px-4 py-2 bg-white text-accent-olive-dark font-medium rounded-lg hover:bg-neutral-beige transition-colors">
+                <button className="mobile-button px-4 py-2 bg-white text-accent-olive-dark font-medium rounded-lg hover:bg-neutral-beige transition-colors">
                   {t.viewDetails}
                 </button>
               </div>
@@ -322,17 +315,17 @@ export default function ExplorePage() {
 
             {/* Results Header */}
             <div className="flex items-center justify-between mb-6">
-              <p className="text-accent-olive-dark dark:text-neutral-beige">
+              <p className="text-accent-olive-dark dark:text-neutral-beige text-mobile-sm">
                 {mockProducts.length} {language === 'en' ? 'items found' : 'عنصر تم العثور عليه'}
               </p>
               <div className="flex items-center space-x-4 rtl:space-x-reverse">
-                <span className="text-sm text-accent-olive-dark dark:text-neutral-beige">
+                <span className="text-mobile-sm text-accent-olive-dark dark:text-neutral-beige">
                   {language === 'en' ? 'Sort by:' : 'ترتيب حسب:'}
                 </span>
                 <select
                   value={selectedSort}
                   onChange={(e) => setSelectedSort(e.target.value)}
-                  className="px-3 py-1 border border-neutral-beige dark:border-accent-olive-dark rounded bg-background-light dark:bg-background-dark text-accent-olive-dark dark:text-neutral-beige text-sm focus:outline-none focus:ring-2 focus:ring-accent-peach"
+                  className="mobile-button px-3 py-1 border border-neutral-beige dark:border-accent-olive-dark rounded bg-background-light dark:bg-background-dark text-accent-olive-dark dark:text-neutral-beige text-mobile-sm focus:outline-none focus:ring-2 focus:ring-accent-peach"
                 >
                   {sortOptions.map((option) => (
                     <option key={option.value} value={option.value}>
@@ -349,8 +342,6 @@ export default function ExplorePage() {
                 <ProductCard
                   key={product.id}
                   {...product}
-                  isWishlisted={wishlistItems.includes(product.id)}
-                  onWishlistToggle={() => toggleWishlist(product.id)}
                 />
               ))}
             </div>
@@ -358,21 +349,21 @@ export default function ExplorePage() {
         </div>
 
         {/* Mobile Content */}
-        <div className="md:hidden px-4">
+        <div className="md:hidden mobile-px">
           {/* Curated Banners */}
-          <div className="grid grid-cols-1 gap-4 mb-8">
+          <div className="grid grid-cols-1 gap-4 mb-6">
             <div className="bg-gradient-to-br from-accent-peach to-accent-peach-dark rounded-lg p-6 text-white">
-              <h3 className="text-xl font-bold mb-2">{t.fitsWeStyled}</h3>
-              <p className="text-sm opacity-90 mb-4">Discover our curated vintage looks</p>
-              <button className="px-4 py-2 bg-white text-accent-peach-dark font-medium rounded-lg hover:bg-neutral-beige transition-colors">
+              <h3 className="text-mobile-xl font-bold mb-2">{t.fitsWeStyled}</h3>
+              <p className="text-mobile-sm opacity-90 mb-4">Discover our curated vintage looks</p>
+              <button className="mobile-button px-4 py-2 bg-white text-accent-peach-dark font-medium rounded-lg hover:bg-neutral-beige transition-colors text-mobile-sm">
                 {t.viewDetails}
               </button>
             </div>
 
             <div className="bg-gradient-to-br from-accent-olive to-accent-olive-dark rounded-lg p-6 text-white">
-              <h3 className="text-xl font-bold mb-2">{t.onSale}</h3>
-              <p className="text-sm opacity-90 mb-4">Up to 50% off selected items</p>
-              <button className="px-4 py-2 bg-white text-accent-olive-dark font-medium rounded-lg hover:bg-neutral-beige transition-colors">
+              <h3 className="text-mobile-xl font-bold mb-2">{t.onSale}</h3>
+              <p className="text-mobile-sm opacity-90 mb-4">Up to 50% off selected items</p>
+              <button className="mobile-button px-4 py-2 bg-white text-accent-olive-dark font-medium rounded-lg hover:bg-neutral-beige transition-colors text-mobile-sm">
                 {t.viewDetails}
               </button>
             </div>
@@ -380,13 +371,13 @@ export default function ExplorePage() {
 
           {/* Mobile Results Header */}
           <div className="flex items-center justify-between mb-6">
-            <p className="text-accent-olive-dark dark:text-neutral-beige">
+            <p className="text-accent-olive-dark dark:text-neutral-beige text-mobile-sm">
               {mockProducts.length} {language === 'en' ? 'items' : 'عنصر'}
             </p>
             <select
               value={selectedSort}
               onChange={(e) => setSelectedSort(e.target.value)}
-              className="px-3 py-1 border border-neutral-beige dark:border-accent-olive-dark rounded bg-background-light dark:bg-background-dark text-accent-olive-dark dark:text-neutral-beige text-sm"
+              className="mobile-button px-3 py-2 border border-neutral-beige dark:border-accent-olive-dark rounded bg-background-light dark:bg-background-dark text-accent-olive-dark dark:text-neutral-beige text-mobile-sm"
             >
               {sortOptions.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -397,13 +388,11 @@ export default function ExplorePage() {
           </div>
 
           {/* Products Grid */}
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             {mockProducts.map((product) => (
               <ProductCard
                 key={product.id}
                 {...product}
-                isWishlisted={wishlistItems.includes(product.id)}
-                onWishlistToggle={() => toggleWishlist(product.id)}
               />
             ))}
           </div>
@@ -412,14 +401,15 @@ export default function ExplorePage() {
         {/* Mobile Sidebar Overlay */}
         {isSidebarOpen && (
           <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-50" onClick={() => setIsSidebarOpen(false)}>
-            <div className="absolute right-0 top-0 h-full w-80 bg-background-light dark:bg-background-dark border-l border-neutral-beige dark:border-accent-olive-dark p-6 overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+            <div className="absolute right-0 top-0 h-full w-80 max-w-full bg-background-light dark:bg-background-dark border-l border-neutral-beige dark:border-accent-olive-dark p-6 overflow-y-auto" onClick={(e) => e.stopPropagation()}>
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-lg font-bold text-accent-olive-dark dark:text-neutral-beige">
+                <h2 className="text-mobile-lg font-bold text-accent-olive-dark dark:text-neutral-beige">
                   {language === 'en' ? 'Filters' : 'المرشحات'}
                 </h2>
                 <button
                   onClick={() => setIsSidebarOpen(false)}
-                  className="p-2 rounded-lg bg-neutral-beige dark:bg-accent-olive text-accent-olive-dark dark:text-neutral-beige"
+                  className="mobile-button p-2 rounded-lg bg-neutral-beige dark:bg-accent-olive text-accent-olive-dark dark:text-neutral-beige"
+                  aria-label="Close filters"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -442,7 +432,7 @@ export default function ExplorePage() {
                   </h3>
                   <button
                     onClick={clearFilters}
-                    className="text-sm text-accent-peach hover:text-accent-peach-dark transition-colors"
+                    className="mobile-button text-mobile-sm text-accent-peach hover:text-accent-peach-dark transition-colors"
                   >
                     {language === 'en' ? 'Clear All' : 'مسح الكل'}
                   </button>
@@ -472,7 +462,7 @@ export default function ExplorePage() {
               />
 
               <div className="mb-4">
-                <label className="block text-sm font-medium text-accent-olive-dark dark:text-neutral-beige mb-2">
+                <label className="block text-mobile-sm font-medium text-accent-olive-dark dark:text-neutral-beige mb-2">
                   {t.condition}
                 </label>
                 <div className="space-y-1">
@@ -486,12 +476,20 @@ export default function ExplorePage() {
                   ))}
                 </div>
               </div>
+
+              {/* Apply Filters Button for Mobile */}
+              <div className="sticky bottom-0 bg-background-light dark:bg-background-dark pt-4 mt-6 border-t border-neutral-beige dark:border-accent-olive-dark">
+                <button
+                  onClick={() => setIsSidebarOpen(false)}
+                  className="w-full mobile-button px-6 py-3 bg-accent-peach text-white font-semibold rounded-lg hover:bg-accent-peach-dark transition-colors"
+                >
+                  {language === 'en' ? 'Apply Filters' : 'تطبيق المرشحات'}
+                </button>
+              </div>
             </div>
           </div>
         )}
       </main>
-      
-      <BottomNav />
     </div>
   );
 } 

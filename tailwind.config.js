@@ -40,7 +40,57 @@ module.exports = {
         danger: colors.peach.dark,
         disabled: '#ccc',
       },
+      spacing: {
+        'safe-area-inset-top': 'env(safe-area-inset-top)',
+        'safe-area-inset-right': 'env(safe-area-inset-right)',
+        'safe-area-inset-bottom': 'env(safe-area-inset-bottom)',
+        'safe-area-inset-left': 'env(safe-area-inset-left)',
+      },
+      minHeight: {
+        'screen-safe': 'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+      },
+      height: {
+        'screen-safe': 'calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom))',
+        'safe-area-inset-top': 'env(safe-area-inset-top)',
+        'safe-area-inset-bottom': 'env(safe-area-inset-bottom)',
+      },
+      screens: {
+        'xs': '475px',
+        'touch': { 'raw': '(hover: none) and (pointer: coarse)' },
+        'hover': { 'raw': '(hover: hover) and (pointer: fine)' },
+      },
+      fontSize: {
+        'mobile-xs': ['0.75rem', { lineHeight: '1.2', letterSpacing: '0.025em' }],
+        'mobile-sm': ['0.875rem', { lineHeight: '1.3', letterSpacing: '0.01em' }],
+        'mobile-base': ['1rem', { lineHeight: '1.4' }],
+        'mobile-lg': ['1.125rem', { lineHeight: '1.4' }],
+        'mobile-xl': ['1.25rem', { lineHeight: '1.3' }],
+        'mobile-2xl': ['1.5rem', { lineHeight: '1.25' }],
+        'mobile-3xl': ['1.875rem', { lineHeight: '1.2' }],
+      },
     },
   },
-  plugins: [require('tailwindcss-rtl')],
+  plugins: [
+    require('tailwindcss-rtl'),
+    function({ addUtilities }) {
+      const newUtilities = {
+        '.safe-area-inset-top': {
+          paddingTop: 'env(safe-area-inset-top)',
+        },
+        '.safe-area-inset-right': {
+          paddingRight: 'env(safe-area-inset-right)',
+        },
+        '.safe-area-inset-bottom': {
+          paddingBottom: 'env(safe-area-inset-bottom)',
+        },
+        '.safe-area-inset-left': {
+          paddingLeft: 'env(safe-area-inset-left)',
+        },
+        '.touch-manipulation': {
+          'touch-action': 'manipulation',
+        },
+      };
+      addUtilities(newUtilities);
+    }
+  ],
 };

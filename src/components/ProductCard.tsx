@@ -1,9 +1,13 @@
 'use client';
 
 import { useAppContext } from '@/context/AppContext';
+import { useWatchlist } from '@/context/WatchlistContext';
+import { useCart } from '@/context/CartContext';
 import { translations } from '@/context/translations';
 import Image from 'next/image';
 import Link from 'next/link';
+import { Icons } from './ui/Icons';
+import { IconButton } from './ui/Button';
 
 interface ProductCardProps {
   id: string;
@@ -12,27 +16,56 @@ interface ProductCardProps {
   image: string;
   condition: 'excellent' | 'good' | 'fair';
   size?: string;
-  seller?: {
+  seller: {
     name: string;
     avatar: string;
   };
-  isWishlisted?: boolean;
-  onWishlistToggle?: () => void;
+  showWatchButton?: boolean;
+  showAddToCart?: boolean;
 }
 
 export const ProductCard = ({ 
-  id, 
+  id,
   name, 
   price, 
   image, 
   condition, 
-  size, 
-  seller, 
-  isWishlisted = false,
-  onWishlistToggle 
+  size,
+  seller,
+  showWatchButton = true,
+  showAddToCart = true
 }: ProductCardProps) => {
   const { language } = useAppContext();
+  const { isInWatchlist, toggleWatchlist } = useWatchlist();
+  const { addItem, isInCart } = useCart();
   const t = translations[language];
+
+  const isWatched = isInWatchlist(id);
+  const isInCartItem = isInCart(id);
+
+  const handleWatchToggle = () => {
+    toggleWatchlist({
+      id,
+      name,
+      price,
+      image,
+      condition,
+      size,
+      seller
+    });
+  };
+
+  const handleAddToCart = () => {
+    addItem({
+      id,
+      name,
+      price,
+      image,
+      condition,
+      size,
+      seller
+    });
+  };
 
   const getConditionColor = (condition: string) => {
     switch (condition) {
@@ -61,78 +94,96 @@ export const ProductCard = ({
   };
 
   return (
-    <div className="bg-background-light dark:bg-background-dark rounded-lg shadow-sm border border-neutral-beige dark:border-accent-olive-dark overflow-hidden transition-transform hover:scale-105">
-      <Link href={`/product/${id}`}>
-        <div className="relative aspect-square">
+    <div className="mobile-card bg-background-light dark:bg-background-dark rounded-lg overflow-hidden group">
+      {/* Product Image */}
+      <div className="relative aspect-square overflow-hidden">
+        <Link href={`/product/${id}`}>
           <Image
             src={image}
             alt={name}
             fill
-            className="object-cover"
-            unoptimized
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
-          {onWishlistToggle && (
+        </Link>
+        
+        {/* Condition Badge */}
+        <div className="absolute top-3 left-3">
+          <span className={`inline-block px-2 py-1 rounded-full text-mobile-xs font-medium ${getConditionColor(condition)}`}>
+            {getConditionText(condition)}
+          </span>
+        </div>
+        
+        {/* Action Buttons */}
+        <div className="absolute top-3 right-3 flex flex-col space-y-2">
+          {/* Watchlist Button */}
+          {showWatchButton && (
             <button
               onClick={(e) => {
                 e.preventDefault();
-                onWishlistToggle();
+                e.stopPropagation();
+                handleWatchToggle();
               }}
-              className="absolute top-2 right-2 p-2 rounded-full bg-white/80 dark:bg-black/80 backdrop-blur-sm hover:bg-white dark:hover:bg-black transition-colors"
+              className="bg-white/90 dark:bg-black/90 backdrop-blur-sm rounded-full p-2 hover:bg-accent-peach hover:text-white transition-colors"
             >
-              <svg 
-                className={`w-5 h-5 ${isWishlisted ? 'text-accent-peach fill-current' : 'text-gray-500'}`} 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-              </svg>
+              <Icons.Watchlist filled={isWatched} size="sm" />
             </button>
           )}
-          <div className="absolute bottom-2 left-2">
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getConditionColor(condition)}`}>
-              {getConditionText(condition)}
-            </span>
-          </div>
+          
+          {/* Add to Cart Button */}
+          {showAddToCart && (
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                handleAddToCart();
+              }}
+              className={`backdrop-blur-sm rounded-full p-2 transition-colors ${
+                isInCartItem 
+                  ? 'bg-accent-peach text-white' 
+                  : 'bg-white/90 dark:bg-black/90 hover:bg-accent-peach hover:text-white'
+              }`}
+            >
+              <Icons.Cart size="sm" />
+            </button>
+          )}
         </div>
-      </Link>
-      
-      <div className="p-3">
-        <Link href={`/product/${id}`}>
-          <h3 className="font-medium text-accent-olive-dark dark:text-neutral-beige mb-1 line-clamp-2">
+      </div>
+
+      {/* Product Details */}
+      <div className="p-3 md:p-4">
+        <Link href={`/product/${id}`} className="block group-hover:text-accent-peach transition-colors">
+          <h3 className="font-semibold text-accent-olive-dark dark:text-neutral-beige text-mobile-sm md:text-base line-clamp-2 mb-2 leading-tight">
             {name}
           </h3>
         </Link>
         
-        {size && (
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-            {t.size}: {size}
-          </p>
-        )}
-        
-        <div className="flex items-center justify-between">
-          <span className="text-lg font-bold text-accent-peach-dark dark:text-accent-peach">
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-accent-peach font-bold text-mobile-base md:text-lg">
             {price} {t.currency}
-          </span>
-          
-          {seller && (
-            <div className="flex items-center space-x-2 rtl:space-x-reverse">
-              <div className="w-6 h-6 rounded-full overflow-hidden">
-                <Image
-                  src={seller.avatar}
-                  alt={seller.name}
-                  width={24}
-                  height={24}
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-              <span className="text-xs text-gray-600 dark:text-gray-400">
-                {seller.name}
-              </span>
-            </div>
+          </p>
+          {size && (
+            <span className="text-mobile-xs text-gray-600 dark:text-gray-400 bg-neutral-beige dark:bg-accent-olive px-2 py-1 rounded">
+              {size}
+            </span>
           )}
         </div>
+
+        {/* Seller Info */}
+        <Link href={`/seller/${seller.name.toLowerCase().replace(/\s+/g, '-')}`} className="flex items-center space-x-2 rtl:space-x-reverse hover:text-accent-peach transition-colors">
+          <div className="w-6 h-6 rounded-full overflow-hidden flex-shrink-0">
+            <Image
+              src={seller.avatar}
+              alt={seller.name}
+              width={24}
+              height={24}
+              className="object-cover w-full h-full"
+            />
+          </div>
+          <span className="text-mobile-xs text-gray-600 dark:text-gray-400 truncate">
+            {seller.name}
+          </span>
+        </Link>
       </div>
     </div>
   );

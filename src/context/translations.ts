@@ -3,16 +3,16 @@ export const translations = {
     // Navigation
     home: 'Home',
     explore: 'Explore',
-    wishlist: 'Wishlist',
+    watchlist: 'Watchlist',
     profile: 'Profile',
     cart: 'Cart',
     
     // Hero Section
-    heroTitle: 'Shop the Eid Edit',
-    heroSubtitle: 'Discover rare vintage treasures',
+    heroTitle: 'Discover Vintage Treasures',
+    heroSubtitle: 'Curated collection of rare finds from Kuwait\'s most trusted sellers',
     
     // Sections
-    newIn: 'New in: Vintage Decor',
+    newIn: 'New In',
     topSellers: 'Top Sellers',
     fitsWeStyled: 'Fits We Styled',
     onSale: 'On Sale',
@@ -22,7 +22,38 @@ export const translations = {
     size: 'Size',
     price: 'Price',
     addToCart: 'Add to Cart',
-    addToWishlist: 'Add to Wishlist',
+    addToWatchlist: 'Add to Watchlist',
+    removeFromWatchlist: 'Remove from Watchlist',
+    watch: 'Watch',
+    watching: 'Watching',
+    remove: 'Remove',
+    
+    // Watchlist features
+    priceTracking: 'Price Tracking',
+    savedSearches: 'Saved Searches',
+    priceDropAlert: 'Price Drop Alert',
+    originalPrice: 'Original Price',
+    currentPrice: 'Current Price',
+    priceChange: 'Price Change',
+    priceIncreased: 'Price Increased',
+    priceDecreased: 'Price Decreased',
+    noChange: 'No Change',
+    
+    // Search
+    search: 'Search',
+    searchPlaceholder: 'Search products, sellers, collections...',
+    searchResults: 'Search Results',
+    noResults: 'No results found',
+    searchFor: 'Search for',
+    showingResults: 'Showing results for',
+    recentSearches: 'Recent Searches',
+    popularSearches: 'Popular Searches',
+    searchSuggestions: 'Search Suggestions',
+    clearSearch: 'Clear Search',
+    saveSearch: 'Save Search',
+    searchSaved: 'Search Saved',
+    deleteSearch: 'Delete Search',
+    runSearch: 'Run Search',
     
     // Conditions
     excellent: 'Excellent',
@@ -40,11 +71,6 @@ export const translations = {
     
     // Actions
     viewDetails: 'View Details',
-    remove: 'Remove',
-    
-    // Empty States
-    noWishlistItems: 'No items in your wishlist yet',
-    noProductsFound: 'No products found',
     
     // Profile
     myAccount: 'My Account',
@@ -55,26 +81,57 @@ export const translations = {
     // Navigation
     home: 'الرئيسية',
     explore: 'استكشف',
-    wishlist: 'المفضلة',
+    watchlist: 'قائمة المراقبة',
     profile: 'الملف الشخصي',
     cart: 'السلة',
     
     // Hero Section
-    heroTitle: 'تسوق مجموعة العيد',
-    heroSubtitle: 'اكتشف كنوز العتيق النادرة',
+    heroTitle: 'اكتشف الكنوز العتيقة',
+    heroSubtitle: 'مجموعة منتقاة من الاكتشافات النادرة من أوثق البائعين في الكويت',
     
     // Sections
-    newIn: 'جديد: ديكور عتيق',
-    topSellers: 'الأكثر مبيعاً',
-    fitsWeStyled: 'أزياء صممناها',
-    onSale: 'تخفيضات',
+    newIn: 'جديد',
+    topSellers: 'أفضل البائعين',
+    fitsWeStyled: 'تنسيقاتنا المختارة',
+    onSale: 'للبيع',
     
     // Product Details
     condition: 'الحالة',
     size: 'المقاس',
     price: 'السعر',
     addToCart: 'أضف إلى السلة',
-    addToWishlist: 'أضف إلى المفضلة',
+    addToWatchlist: 'أضف إلى قائمة المراقبة',
+    removeFromWatchlist: 'احذف من قائمة المراقبة',
+    watch: 'راقب',
+    watching: 'قيد المراقبة',
+    remove: 'احذف',
+    
+    // Watchlist features
+    priceTracking: 'تتبع الأسعار',
+    savedSearches: 'البحثات المحفوظة',
+    priceDropAlert: 'تنبيه انخفاض السعر',
+    originalPrice: 'السعر الأصلي',
+    currentPrice: 'السعر الحالي',
+    priceChange: 'تغيير السعر',
+    priceIncreased: 'ارتفع السعر',
+    priceDecreased: 'انخفض السعر',
+    noChange: 'لا تغيير',
+    
+    // Search
+    search: 'بحث',
+    searchPlaceholder: 'ابحث عن المنتجات والبائعين والمجموعات...',
+    searchResults: 'نتائج البحث',
+    noResults: 'لم يتم العثور على نتائج',
+    searchFor: 'البحث عن',
+    showingResults: 'عرض النتائج لـ',
+    recentSearches: 'البحثات الأخيرة',
+    popularSearches: 'البحثات الشائعة',
+    searchSuggestions: 'اقتراحات البحث',
+    clearSearch: 'مسح البحث',
+    saveSearch: 'احفظ البحث',
+    searchSaved: 'تم حفظ البحث',
+    deleteSearch: 'احذف البحث',
+    runSearch: 'تشغيل البحث',
     
     // Conditions
     excellent: 'ممتاز',
@@ -92,11 +149,6 @@ export const translations = {
     
     // Actions
     viewDetails: 'عرض التفاصيل',
-    remove: 'إزالة',
-    
-    // Empty States
-    noWishlistItems: 'لا توجد عناصر في المفضلة بعد',
-    noProductsFound: 'لم يتم العثور على منتجات',
     
     // Profile
     myAccount: 'حسابي',
